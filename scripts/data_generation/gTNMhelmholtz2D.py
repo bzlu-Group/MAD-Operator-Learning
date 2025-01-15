@@ -5,72 +5,46 @@ from Gauss import generate_gps_circ as ggps
 from Gauss import generate_smooth_random_field as gsrf
 from traditional_methods import solve_helmholtz2D_direct as solve
 
-# Parameters
-num_functions = 20  # Number of functions to generate
-num_points = 51  # Number of grid points for the computational domain
-k = 100  
-fine_factor = 1
+# Parameter settings
+num_functions = 200
+num_points = 51
+fine_factor = 20
+k = 1
 
 def generate_training_data(num_functions, num_points):
-    """
-    Generate training data for the Helmholtz equation in 2D.
-
-    The training data consists of:
-    - Boundary values (u_b) generated using Gaussian processes.
-    - Laplace values (laplace) generated using smooth random fields.
-    - Solutions (u) computed using traditional numerical methods.
-
-    The data is normalized for numerical stability.
-
-    :param num_functions: Number of functions (training samples) to generate
-    :param num_points: Number of grid points along each axis
-    :return: Normalized training data as a Numpy array
-    """
-    # Batch generation of Laplace samples (f) and boundary values (u_b)
-    laplace_samples = torch.tensor(np.array(gsrf(num_points, 5, num_functions))).reshape(num_functions, -1)
-    u_b_samples = torch.tensor(np.array(ggps(0, 1, 4 * num_points - 3, 0.1, num_functions))).view(num_functions, -1)
+    # Batch generate laplace and u_b to avoid loops
+    high_num_points = fine_factor * (num_points - 1) + 1
+    laplace_samples = torch.tensor(np.array(gsrf(high_num_points, 5, num_functions))).reshape(num_functions, -1)
+    u_b_samples = torch.tensor(np.array(ggps(0, 1, 4 * high_num_points - 3, 0.1, num_functions))).view(num_functions, -1)
     
-    # Normalize and process each sample
+    # Calculate max_value and normalize for each sample
     all_data = []
     for i in range(num_functions):
-        # Extract the i-th sample for Laplace values and boundary conditions
         laplace = laplace_samples[i].view(1, -1)
-        u_b = u_b_samples[i].view(1, -1)
-
-        # Solve the Helmholtz equation to compute the solution (u)
-        u = torch.tensor(solve(u_b, laplace, num_points, fine_factor, k)).view(1, -1)
-
-        # Combine boundary values, Laplace values, and the solution into one row
-        data_row = torch.cat((u_b, laplace, u), 1)
-
-        # Normalize the data row by its maximum absolute value
+        u_b_high = u_b_samples[i].view(1, -1)
+        u_high = torch.tensor(solve(u_b_high, laplace, high_num_points, 1, k)).view(1, -1)
+        u_high_grid = u_high.view(high_num_points, high_num_points)
+        
+        # Extract coarse grid data
+        u_low_grid = u_high_grid[::fine_factor, ::fine_factor]  # Sample every nth point
+        u_low = u_low_grid.reshape(1, -1)
+        u_b_low = u_b_high[:, ::fine_factor]
+        laplace_high_grid = laplace.view(high_num_points, high_num_points)
+        laplace_low = laplace_high_grid[::fine_factor, ::fine_factor].reshape(1, -1)
+        data_row = torch.cat((u_b_low, laplace_low, u_low), 1)
         max_value = torch.max(torch.abs(data_row))
         normalized_vector = data_row / max_value
-
-        # Append the normalized data row to the results
         all_data.append(normalized_vector.detach().numpy())
 
     return np.vstack(all_data)
 
 def save_training_data(data, file_path):
-    """
-    Save the generated training data to a file.
-
-    The data is saved in a space-separated format, where each row contains:
-    - Boundary values (u_b)
-    - Laplace values (laplace)
-    - Solution values (u)
-
-    :param data: Training data to save
-    :param file_path: Path to save the training data
-    """
+    # Save data using space as delimiter
     np.savetxt(file_path, data, delimiter=" ", fmt='%f')
 
-# Main execution
 start_time = time.time()
 file_path = f"data/TNM{k}helmholtz2D_{num_functions,num_points}.txt"  
-
-# Generate and save the training data
+# Generate and save training data
 training_data = generate_training_data(num_functions, num_points)
 save_training_data(training_data, file_path)
 
