@@ -1,11 +1,11 @@
 import torch
-import torch.nn as nn
 import numpy as np
 import time
 
 # Parameters
-num_functions = 200  # Number of functions to generate
-num_points = 51  # Number of points along one dimension
+num_functions = 2000
+num_points = 51
+min_distance = 0.001  # Minimum distance to avoid numerical instability
 
 def generate_square_points(num_points):
     """Generate evenly spaced points along the boundary of a square."""
@@ -19,42 +19,46 @@ def generate_square_points(num_points):
 
 boundary = generate_square_points(num_points)
 
-class LaplaceActivation(nn.Module):
-    """Custom activation function based on Laplace equation solutions."""
-    def __init__(self, a, A, B, C, D):
-        super().__init__()
-        self.a = nn.Parameter(torch.tensor(a))  # Trainable parameter
-        self.A = nn.Parameter(torch.tensor(A))
-        self.B = nn.Parameter(torch.tensor(B))
-        self.C = nn.Parameter(torch.tensor(C))
-        self.D = nn.Parameter(torch.tensor(D))
+def generate_outside_sources(num_sources):
+    """Generate random point sources located outside the computational domain."""
+    sources = []
 
-    def forward(self, x):
-        xx = x[:, 0]
-        yy = x[:, 1]
-        return (self.A * torch.cos(self.a * xx) + self.B * torch.sin(self.a * xx)) * \
-               (self.C * torch.cosh(self.a * yy) + self.D * torch.sinh(self.a * yy))
-
-class LaplaceNN(nn.Module):
-    """Neural network with custom Laplace-based activations."""
-    def __init__(self):
-        super().__init__()
-        self.hidden = nn.ModuleList()
-        for _ in range(10):
-            a = torch.randn(1).item()
-            A = torch.randn(1).item()
-            B = torch.randn(1).item()
-            C = torch.randn(1).item()
-            D = torch.randn(1).item()
-            self.hidden.append(LaplaceActivation(a, A, B, C, D))
+    for _ in range(num_sources):
+        if torch.rand(1) > 0.5:
+            if torch.rand(1).item() > 0.5:
+                # Case 1: x outside [0, 1], y within [0, 1]
+                x = torch.randn(1).item()
+                y = torch.rand(1).item()
+                x = x - min_distance if x <= 0 else x + 1 + min_distance
+            else:
+                # Case 2: y outside [0, 1], x within [0, 1]
+                y = torch.randn(1).item()
+                x = torch.rand(1).item()
+                y = y - min_distance if y <= 0 else y + 1 + min_distance
+        else:
+            # Case 3: Both x and y outside [0, 1]
+            x = torch.randn(1).item()
+            y = torch.randn(1).item()
+            x = x - min_distance if x <= 0 else x + 1 + min_distance
+            y = y - min_distance if y <= 0 else y + 1 + min_distance
         
-        self.output = nn.Linear(10, 1)  # Fully connected output layer
-        nn.init.normal_(self.output.weight, mean=0.0, std=1)  # Initialize weights
-        nn.init.normal_(self.output.bias, mean=0, std=1)  # Initialize bias
+        weight = torch.randn(1)  # Random weight for the source
+        sources.append((x, y, weight))
 
-    def forward(self, x):
-        outputs = torch.cat([h(x).unsqueeze(1) for h in self.hidden], dim=1)
-        return self.output(outputs)
+    return sources
+
+def calculate_laplace_solution(points, sources):
+    """Compute the Laplace solution at given points based on multiple sources."""
+    results = []
+    for cx, cy, weight in sources:
+        x_minus_cx = points[:, 0] - cx
+        y_minus_cy = points[:, 1] - cy
+        function_value = weight * 0.5 * torch.log(x_minus_cx ** 2 + y_minus_cy ** 2)
+        results.append(function_value)
+
+    # Combine the contributions from all sources
+    weighted_sum = torch.stack(results, dim=1).sum(dim=1, keepdim=True)
+    return weighted_sum
 
 def generate_training_data(num_networks, num_points):
     """Generate training data for Laplace solutions."""
@@ -68,27 +72,22 @@ def generate_training_data(num_networks, num_points):
     points = torch.tensor(grid_points, dtype=torch.float32)
 
     for _ in range(num_networks):
-        net = LaplaceNN()
-        net.eval()  # Set network to evaluation mode
-        x = points[:, 0:1]
-        y = points[:, 1:2]
-        u = net(torch.cat((x, y), dim=1))
-        u_val = u.view(1, -1)
-        u_b = net(boundary).view(1, -1)
+        sources = generate_outside_sources(10)
+        u_val = calculate_laplace_solution(points, sources).view(1, -1)
+        u_b = calculate_laplace_solution(boundary, sources).view(1, -1)
         data_row = torch.cat((u_b, u_val), 1)
-        max_value = torch.max(torch.abs(u_b))
-        normalized_vector = data_row / max_value  # Normalize to avoid large value ranges
+        max_value = torch.max(torch.abs(data_row))
+        normalized_vector = data_row / max_value
         all_data.append(normalized_vector.detach().numpy())
 
     return np.vstack(all_data)
 
 def save_training_data(data, file_path):
-    """Save training data to a file."""
+    """Save the training data to a file."""
     np.savetxt(file_path, data, delimiter=" ", fmt='%f')
 
-# Execution starts here
 start_time = time.time()
-file_path = f"data/MADlaplace2D1_{num_functions, num_points}.txt"
+file_path = f"data/MADlaplace2D2_{num_functions, num_points}.txt"
 
 # Generate and save training data
 training_data = generate_training_data(num_functions, num_points)
