@@ -9,7 +9,7 @@ import time, os
 num_functions = 2000  # Number of functions in the dataset
 num_points = 51  # Grid size (number of points)
 item = 1  # MAD1 or MAD2
-checkpoint_path = f"models/MADlaplace2D{item}circ_checkpoint.pth"  # Path to save/load the model checkpoint
+checkpoint_path = f"models/MADlaplace2D{item}circ_checkpoint_1_1.pth"  # Path to save/load the model checkpoint
 
 class Dataset(Dataset):
     def __init__(self, file_path):
@@ -152,7 +152,7 @@ def l_label(u, inputs1):
     return l
 
 # Path to the dataset file
-file_path = f"data/MADlaplace2D{item}circ_{num_functions, num_points}.txt"
+file_path = f"data/MADlaplace2D{item}circ_{num_functions, num_points}_1.txt"
 dataset = Dataset(file_path)
 
 # Create DataLoader for batching
@@ -181,7 +181,7 @@ else:
     print("No checkpoint found, starting from scratch.")
 
 epoches = 200000  # Total number of epochs for training
-model_path = f"models/MADlaplace2D{item}circ_{num_functions, num_points}.pth"  # Model save path
+model_path = f"models/MADlaplace2D{item}circ_{num_functions, num_points}_1_1.pth"  # Model save path
 
 # Start training
 start_time = time.time()

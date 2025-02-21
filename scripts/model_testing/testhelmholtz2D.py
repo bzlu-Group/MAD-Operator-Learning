@@ -5,7 +5,7 @@ from torch import nn
 
 num_functions = 2000
 num_points = 51
-k = 100  # Constant k for the Helmholtz equation
+k = 1  # Constant k for the Helmholtz equation
 test_item = 1  # Choose test dataset 1 or 2
 model_item = 1  # 1 for PINN-based model, 2 for MAD model
 

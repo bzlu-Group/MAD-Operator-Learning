@@ -8,7 +8,7 @@ import time, os
 
 num_functions = 2000
 num_points = 51
-checkpoint_path = f"models/widePINNlaplace2D_checkpoint.pth"
+checkpoint_path = f"models/widePINNlaplace2D_checkpoint_1_1.pth"
 
 # Dataset class to load data from a file
 class Dataset(Dataset):
@@ -135,7 +135,7 @@ def l_b(u, inputs1):
     return l
 
 # File path to the dataset
-file_path = f"data/PINNlaplace2D_{num_functions, num_points}.txt"
+file_path = f"data/PINNlaplace2D_{num_functions, num_points}_1.txt"
 dataset = Dataset(file_path)
 
 # Create DataLoader for batching
@@ -166,7 +166,7 @@ else:
 
 # Total number of epochs
 epoches = 200000
-model_path = f"models/widePINNlaplace2D_{num_functions, num_points}.pth"
+model_path = f"models/widePINNlaplace2D_{num_functions, num_points}_1_1.pth"
 
 # Start the training loop
 start_time = time.time()

@@ -12,7 +12,7 @@ test_item = 1  # Test data set option
 # Paths to test data and pre-trained model
 test_file_path = f"data/MADlaplace2D{test_item}circ_(200, 51).txt"  # Path to the test dataset
 #model_path = f"models/MADlaplace2D{model_item}circ_{num_functions,num_points}.pth"  # Path to the pre-trained MAD model
-model_path = f"models/PINNlaplace2Dcirc_{num_functions,num_points}.pth"  # Alternative: PINN-based model
+model_path = f"models/PINNlaplace2Dcirc_{num_functions,num_points}_1_1.pth"  # Alternative: PINN-based model
 
 # Create Dataset class similar to training dataset
 class TestDataset(Dataset):

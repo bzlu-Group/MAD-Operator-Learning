@@ -9,7 +9,7 @@ import time, os
 # Number of functions and points in the grid
 num_functions = 2000
 num_points = 51
-checkpoint_path = f"models/PINNlaplace2Dcirc_checkpoint.pth"  # Path to save/load the model checkpoint
+checkpoint_path = f"models/PINNlaplace2Dcirc_checkpoint_1_1.pth"  # Path to save/load the model checkpoint
 
 # Dataset class to load data
 class Dataset(Dataset):
@@ -207,7 +207,7 @@ def l_b(u, inputs1):
     return l
 
 # Path to the dataset file
-file_path = f"data/PINNlaplace2Dcirc_{num_functions, num_points}.txt"
+file_path = f"data/PINNlaplace2Dcirc_{num_functions, num_points}_1.txt"
 dataset = Dataset(file_path)
 
 # Create DataLoader for batching the dataset
@@ -238,7 +238,7 @@ else:
 
 # Training loop parameters
 epoches = 200000
-model_path = f"models/PINNlaplace2Dcirc_{num_functions, num_points}.pth"
+model_path = f"models/PINNlaplace2Dcirc_{num_functions, num_points}_1_1.pth"
 
 start_time = time.time()
 for epoch in range(start_epoch, epoches):

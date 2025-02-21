@@ -8,7 +8,7 @@ import time, os
 
 num_functions = 2000
 num_points = 51
-checkpoint_path = f"models/PINNlaplace2D_checkpoint.pth"
+checkpoint_path = f"models/PINNlaplace2D_checkpoint_1_1.pth"
 
 class Dataset(Dataset):
     def __init__(self, file_path):
@@ -138,7 +138,7 @@ def l_b(u, inputs1):
     return l
 
 # File path for the dataset
-file_path = f"data/PINNlaplace2D_{num_functions, num_points}.txt"
+file_path = f"data/PINNlaplace2D_{num_functions, num_points}_1.txt"
 dataset = Dataset(file_path)
 
 # Create DataLoader for batching the dataset
@@ -168,7 +168,7 @@ else:
     print("No checkpoint found, starting from scratch.")
 
 epoches = 200000
-model_path = f"models/PINNlaplace2D_{num_functions, num_points}.pth"
+model_path = f"models/PINNlaplace2D_{num_functions, num_points}_1_1.pth"
 
 start_time = time.time()
 for epoch in range(start_epoch, epoches):

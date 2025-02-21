@@ -9,7 +9,7 @@ import time, os
 # Define constants for the number of functions and data points used during training
 num_functions = 2000
 num_points = 51
-checkpoint_path = f"models/PINNlaplace2DL_checkpoint.pth"
+checkpoint_path = f"models/PINNlaplace2DL_checkpoint_1_1.pth"
 
 # Dataset class to load training data
 class Dataset(Dataset):
@@ -219,7 +219,7 @@ def l_b(u, inputs2):
     return l
 
 # File path for training data
-file_path = f"data/PINNlaplace2DL_{num_functions, num_points}.txt"
+file_path = f"data/PINNlaplace2DL_{num_functions, num_points}_1.txt"
 dataset = Dataset(file_path)
 
 # Create DataLoader for batching the dataset
@@ -250,7 +250,7 @@ else:
 
 # Set number of training epochs
 epoches = 200000
-model_path = f"models/PINNlaplace2DL_{num_functions, num_points}.pth"
+model_path = f"models/PINNlaplace2DL_{num_functions, num_points}_1_1.pth"
 
 start_time = time.time()
 for epoch in range(start_epoch, epoches):

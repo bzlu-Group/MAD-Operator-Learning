@@ -9,7 +9,7 @@ import time, os
 num_functions = 2000  # Number of functions in the dataset
 num_points = 51  # Number of grid points in each dimension
 k = 1  # Identifier for the model configuration
-checkpoint_path = f"models/MAD{k}helmholtzwithoutsource2D_checkpoint.pth"  # Path to save/load model checkpoints
+checkpoint_path = f"models/MAD{k}helmholtzwithoutsource2D_checkpoint_1_1.pth"  # Path to save/load model checkpoints
 
 # Dataset class to load data from a file
 class Dataset(Dataset):
@@ -104,7 +104,7 @@ def l_label(u, inputs1):
     return l
 
 # File path for the dataset
-file_path = f"data/MAD{k}helmholtz_withoutsource_2D_{num_functions, num_points}.txt"
+file_path = f"data/MAD{k}helmholtz_withoutsource_2D_{num_functions, num_points}_1.txt"
 dataset = Dataset(file_path)  # Load the dataset
 
 # Create a DataLoader for batching the dataset
@@ -134,7 +134,7 @@ else:
     print("No checkpoint found, starting from scratch.")
 
 epoches = 200000  # Total number of epochs for training
-model_path = f"models/MAD{k}helmholtzwithoutsource2D_{num_functions, num_points}.pth"  # Model save path
+model_path = f"models/MAD{k}helmholtzwithoutsource2D_{num_functions, num_points}_1_1.pth"  # Model save path
 
 # Track total training time
 start_time = time.time()

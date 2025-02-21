@@ -27,7 +27,7 @@ To quickly test the pre-trained MAD and PINN models, follow these steps:
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/PunyOfLeaves/MAD-Operator-Learning.git
+   git clone https://github.com/bzlu-Group/MAD-Operator-Learning.git
    cd MAD-Operator-Learning
    ```
 

@@ -9,7 +9,7 @@ import time, os
 num_functions = 2000
 num_points = 51
 item = 1  # MAD1 or MAD2
-checkpoint_path = f"models/wideMADlaplace2D{item}_checkpoint.pth"
+checkpoint_path = f"models/wideMADlaplace2D{item}_checkpoint_1_1.pth"
 
 # Dataset class to load data from file
 class Dataset(Dataset):
@@ -97,7 +97,7 @@ def l_label(u, inputs1):
     return l
 
 # File path for loading data
-file_path = f"data/MADlaplace2D{item}_{num_functions, num_points}.txt"
+file_path = f"data/MADlaplace2D{item}_{num_functions, num_points}_1.txt"
 dataset = Dataset(file_path)
 
 # Create DataLoader for batching data
@@ -128,7 +128,7 @@ else:
 
 # Number of epochs for training
 epoches = 200000
-model_path = f"models/wideMADlaplace2D{item}_{num_functions, num_points}.pth"
+model_path = f"models/wideMADlaplace2D{item}_{num_functions, num_points}_1_1.pth"
 
 start_time = time.time()
 # Training loop

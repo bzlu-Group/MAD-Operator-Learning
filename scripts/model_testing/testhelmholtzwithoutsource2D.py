@@ -5,8 +5,8 @@ from torch import nn
 
 num_functions = 2000
 num_points = 51
-k = 1  # △u + ku = 0, Helmholtz equation with k as the coefficient
-test_item = 1  # Select test dataset (1 for dataset 1, 2 for dataset 2)
+k = 100  # △u + ku = 0, Helmholtz equation with k as the coefficient
+test_item = 2  # Select test dataset (1 for dataset 1, 2 for dataset 2)
 model_item = 2  # 1 for PINN-based model, 2 for MAD model
 # Path for test dataset
 if test_item == 1:
@@ -15,9 +15,9 @@ else:
     test_file_path = f"data/TNM{k}helmholtz_withoutsource_2D_(200, 51).txt"  
 
 if model_item == 1:
-    model_path = f"models/PINN{k}helmholtzwithoutsource2D_{num_functions,num_points}_2_2.pth" 
+    model_path = f"models/PINN{k}helmholtzwithoutsource2D_{num_functions,num_points}_1_1.pth" 
 else:
-    model_path = f"models/MAD{k}helmholtzwithoutsource2D_{num_functions,num_points}_2_2.pth" 
+    model_path = f"models/MAD{k}helmholtzwithoutsource2D_{num_functions,num_points}_1_1.pth" 
 
 # Create Dataset class, similar to the training dataset
 class TestDataset(Dataset):

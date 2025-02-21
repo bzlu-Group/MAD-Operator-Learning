@@ -12,7 +12,7 @@ test_item = 2
 # Paths to test data and pre-trained model
 test_file_path = f"data/MADlaplace2D{test_item}L_(200, 51).txt"  # Path to the test dataset
 #model_path = f"models/MADlaplace2D{model_item}L_{num_functions,num_points}.pth"  # Path to the pre-trained model
-model_path = f"models/PINNlaplace2DL_{num_functions,num_points}.pth"  # Another model option
+model_path = f"models/PINNlaplace2DL_{num_functions,num_points}_1_1.pth"  # Another model option
 
 # Create Dataset class similar to training dataset
 class TestDataset(Dataset):
