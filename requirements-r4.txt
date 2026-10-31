@@ -1,0 +1,7 @@
+# R4 square-domain runtime. Use a fresh environment rather than combining this
+# with the historical requirements.txt (which targets a different environment).
+numpy==1.26.3
+scipy==1.13.1
+torch==2.5.1
+matplotlib==3.9.4
+threadpoolctl

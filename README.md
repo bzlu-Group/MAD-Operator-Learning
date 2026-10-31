@@ -3,6 +3,10 @@
 
 Operator learning with MAD: Training datasets and scripts for PDE solutions.
 
+Code archive for version 1.0.0:
+[doi:10.5281/zenodo.23836330](https://doi.org/10.5281/zenodo.23836330).
+The DOI is registered when the corresponding Zenodo record is published.
+
 ## Overview
 This repository contains the datasets and code for implementing the **Mathematical Artificial Data (MAD)** paradigm, designed for solving partial differential equations (PDEs) such as Poisson, Helmholtz, and Laplace equations. The MAD framework provides a **modular, scalable, and efficient approach** to operator learning.
 
@@ -20,6 +24,14 @@ This repository contains the datasets and code for implementing the **Mathematic
   - **`model_testing/`**: Scripts for testing trained models and visualizing performance.
 
 ## Revised Experiments
+
+For the final source-term experiments, use
+[the R4 reproduction guide](reproducibility/r4/README.md). It documents the
+response-balanced Test Set 2 and solver inputs, the input-RMS PINN used in
+Table 1, the raw-loss sensitivity baseline, the Table 6 paired comparison,
+and the exact model-selection and evaluation rules. The original `models/`
+checkpoints and historical source-term solver files are not substitutes for
+these final experiments.
 
 The additional experiments are indexed in
 [the R3 experiment guide](scripts/r3_revision/README.md), including fast DST

@@ -1,0 +1,10 @@
+# Preserve the bytes recorded by the reproducibility manifest, including the
+# frozen scientific workers originally executed with CRLF line endings.
+.gitattributes -text
+scripts/r4_revision/*.py -text
+reproducibility/r4/*.json -text
+reproducibility/r4/*.md -text
+README.md -text
+requirements-r4.txt -text
+CITATION.cff -text
+.zenodo.json -text

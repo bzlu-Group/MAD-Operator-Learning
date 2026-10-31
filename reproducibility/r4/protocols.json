@@ -1,0 +1,143 @@
+{
+  "sampling": {
+    "equation": "Delta u + k u = f; unit-square Dirichlet problem",
+    "test_k": [
+      0,
+      1,
+      10,
+      100
+    ],
+    "test_count_each": 200,
+    "test_seed": 2026100520,
+    "training_data_seeds": [
+      2026100511,
+      2026100512,
+      2026100513
+    ],
+    "model_seeds": [
+      20260904,
+      20260905,
+      20260906
+    ],
+    "training_count": 2000,
+    "epochs": 50000,
+    "batch_size": 25,
+    "learning_rate": 0.0001,
+    "source": {
+      "physical_length": 0.1,
+      "period": 2.0,
+      "modes_each_axis": 24,
+      "coefficients": "independent real N(0,1) in cosine/sine tensor basis",
+      "spectral_amplitude": "exp(-ell^2*(pi*m)^2/4)",
+      "pointwise_prior_variance": 1.0
+    },
+    "boundary": "unchanged detrended RBF GP at4001 perimeter points, l=0.1; refinement uses its fixed cubic interpolant",
+    "balance": "source scale alpha = R * norm(ug)/norm(uf0), R log-uniform[0.5,2], computed on51x51; input shapes independent, amplitudes coupled",
+    "normalization": "unchanged R3 shared tuple max of retained(g,f,u)",
+    "reference": "float64 five-point DST,1001x1001",
+    "gates_before_training": {
+      "test_refinement_count_each_k": 10,
+      "1001_to_2001_max": 0.001,
+      "coarse_source_reconstruction_solution_max": 0.001,
+      "component_recombination_max": 1e-09
+    }
+  },
+  "Table1": {
+    "ks": [
+      0,
+      1,
+      10,
+      100
+    ],
+    "N": 2000,
+    "seed": 20260904,
+    "epochs": 200000,
+    "report_budgets": [
+      50000,
+      100000,
+      200000
+    ],
+    "architecture": "Original PoissonONet(200,2601,2,90,110), unchanged",
+    "optimizer": "Original Adam, lr=1e-4; original scheduler never stepped",
+    "loss": "0.9*MSE(Delta u+k*u-f)/mean_train(f^2)+0.1*MSE(u_boundary-g)/mean_train(g^2)",
+    "loss_calibration": "Only complete original training g/f inputs; no u or held-out values",
+    "selection": "Original minimum observed pre-update training-minibatch objective; final-state diagnostics also reported; no test-based selection",
+    "precision": "Original float32, no AMP/TF32; float64 reference/metric accumulation",
+    "records": {
+      "0": {
+        "inputs_sha256": "606e99be22a3cc039d895b415ae73005764387fb69b17132ed57592a6f3620bf",
+        "supervised_sha256": "f86fd1b6d04e58046ddf5ebedf27989891416d36ea159c295c93f5548a87335e",
+        "test1_sha256": "cba45a11445a658af5348aa2842146574eb827cf57f66aa12051b1ab5a5854e7",
+        "test2_files": {
+          "data.npy": "6d827b30d6c761ede0da642c8343c0f463703c620934a1733f1a8885a8747f12",
+          "ug.npy": "27ec9efc23d73de3ccb17013bbbb99bc6dd7f055fb78faf441735e2e702af304",
+          "uf.npy": "a8b9c5e0969aead4aacc346633243fe730d0fd9d30a6ceb8f7289f886b7c58be",
+          "latent.npz": "e5e749d70b97045a2dd136d7d889ba4f9fa8a4046e54ee07807e165d817bc319",
+          "summary.json": "8b836faf0b5ca840a7ca7d7517b670d49626e338097de85d090df24637453c18",
+          "refinement.json": "4d9566dfba1a64a8b87f99c98d5e89011e66e3e7c3ed4bf04f6694f0e8df824c"
+        },
+        "scales": {
+          "g_mean_square": 8.024915401436623e-05,
+          "f_mean_square": 0.12315006838474997
+        },
+        "batch_size": 100
+      },
+      "1": {
+        "inputs_sha256": "b85039dd82f11e98b01e295f30fabcc01f0885907749028e3acdcfc58f4ca825",
+        "supervised_sha256": "c9fab4a01e5c65a42b84fa784152fee3a31cc63501802c365660db220dce6746",
+        "test1_sha256": "2e3aa867cd7cff890fe38e6afa422bbe23540df9f2d29a70b2cdadbb452519a9",
+        "test2_files": {
+          "data.npy": "6233b204997640b7d75e42689f839fb01635412c8c49e805161cd94900c171c4",
+          "ug.npy": "729ef95de9738bbed68b4c7be0733762bea0e47a31b0782d86c1cc32424a4e07",
+          "uf.npy": "fd20f5a886e6937f336afd997dd7e6248395f304d04e33a517a3ebf7e5da4c3f",
+          "latent.npz": "39c6bb96b8fe46a26edce76e850d080d4e20dae1816cb97945308c5f306b2505",
+          "summary.json": "f3cea9d1870e3d8530acada9de4f3b1c71bbd1149b32236f022f025b402122ad",
+          "refinement.json": "6e41177c2001079f82c07c8de6352d40f0a2cc9172abb05b1c0b1e3c900ac5bb"
+        },
+        "scales": {
+          "g_mean_square": 8.424061122715286e-05,
+          "f_mean_square": 0.12315006838474997
+        },
+        "batch_size": 25
+      },
+      "10": {
+        "inputs_sha256": "f48c4ec53313d871ded4317fe2b387a52026244b94af0f6a93255dfc4922e617",
+        "supervised_sha256": "ec6bde85bea211e759e26f7c5c09eb05082f0538f482ef685ef93bd264234fd1",
+        "test1_sha256": "4f5219f265270b1ea7696cafa18bbb9aadfab86a136d51df0925460b14668670",
+        "test2_files": {
+          "data.npy": "cda3188a6114cf55612595e0dc3db21e588ab646198f61385988fc10b7cab384",
+          "ug.npy": "0575da67ae0a853484f011b43190408c8351ba84ccf978bf4a070c32ad1099d5",
+          "uf.npy": "064c50a8dae218f1df8c43d807a6df7490ad7f77c9e5be9398b151728e56fcee",
+          "latent.npz": "5116d62d07409df53069fcd4091feb640def32b9774ab9866a11e57f5b971cd7",
+          "summary.json": "f1d19894239605e1277ce43bd31c941c5aa1262f74a3f378a48757fbeb4852ba",
+          "refinement.json": "c90d3f8cad922388b7c4e7d7d74f0f64be9819c810368e6f97e05582ef68d736"
+        },
+        "scales": {
+          "g_mean_square": 0.000154615953151613,
+          "f_mean_square": 0.12315006838474997
+        },
+        "batch_size": 25
+      },
+      "100": {
+        "inputs_sha256": "2079ed818bd962371d3695f847b37e53045ba8db4b6012b855ed426c1920462a",
+        "supervised_sha256": "97608d64337ffee95eef01bfc44bd66e03205dc8a78bac81eef6275ff529c27f",
+        "test1_sha256": "20e2ba636a6ecfec4ad3fd2437bd2e5870f34b733ba1055b0ef04ccec131bf49",
+        "test2_files": {
+          "data.npy": "a53be1501058b81a382c36b13cf5c1cd4309746a6fc46743c83c75ac9a6728e9",
+          "ug.npy": "a744ce6327d1e24b448140128ba681d6eb65bca8b7e569814f54f79b445e870b",
+          "uf.npy": "d9f1815d4eaa35f20add8070b53b66cdab4500139112b1f2c30fc92adb0dd76a",
+          "latent.npz": "49b4b523c5550e2d644e93a3fbd72e9461a2838a258b7408cf34e85641a331ac",
+          "summary.json": "3db2542f7608432a0d652c0cac401e33b552188239c159a967d822544813384d",
+          "refinement.json": "87ec37a5061702851a1af92af8a0eeccdbf0fd5b3278af815d424e2134b56510"
+        },
+        "scales": {
+          "g_mean_square": 7.230086230162787e-05,
+          "f_mean_square": 0.12315006838474997
+        },
+        "batch_size": 25
+      }
+    }
+  },
+  "frozen_RMS_protocol_sha256": "58d1146b172053b33dea1e8adb9e71c9c37c5937fa9440edb16441e22e4868fa",
+  "frozen_worker_sha256": "ea2251d4732ed5b1d667e72993f1d8c5c3c498f3f1907796dee1652b48b7ac5e"
+}

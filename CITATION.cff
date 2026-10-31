@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "Please cite this software version and the associated MAD article."
+type: software
+title: "Mathematical artificial data for operator learning: reproducibility code"
+version: 1.0.0
+doi: 10.5281/zenodo.23836330
+date-released: 2026-10-31
+authors:
+  - family-names: Wu
+    given-names: Heng
+  - family-names: Lu
+    given-names: Benzhuo
+repository-code: "https://github.com/bzlu-Group/MAD-Operator-Learning"
+url: "https://arxiv.org/abs/2507.06752"
+license: MIT

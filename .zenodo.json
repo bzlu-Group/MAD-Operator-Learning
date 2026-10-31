@@ -1,0 +1,13 @@
+{
+  "title": "Mathematical artificial data for operator learning: reproducibility code",
+  "upload_type": "software",
+  "creators": [{"name": "Wu, Heng"}, {"name": "Lu, Benzhuo"}],
+  "description": "Code for Mathematical artificial data for operator learning, including MAD0/MAD1/MAD2 benchmarks, corrected response-balanced source data, input-RMS and raw-loss PINN comparisons, and earlier complex-geometry and nonlinear experiments. See reproducibility/r4/README.md for the final source-term protocols, included files, regeneration instructions and limitations.",
+  "license": "MIT",
+  "version": "1.0.0",
+  "keywords": ["operator learning", "partial differential equations", "mathematical artificial data", "DeepONet", "reproducibility"],
+  "related_identifiers": [
+    {"identifier": "https://github.com/bzlu-Group/MAD-Operator-Learning", "relation": "isSupplementTo", "scheme": "url"},
+    {"identifier": "https://arxiv.org/abs/2507.06752", "relation": "isSupplementTo", "scheme": "url"}
+  ]
+}
