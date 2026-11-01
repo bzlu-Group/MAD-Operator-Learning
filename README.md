@@ -3,9 +3,13 @@
 
 Operator learning with MAD: Training datasets and scripts for PDE solutions.
 
-Code archive for version 1.0.0:
+Code archive for version 1.0.1:
 [doi:10.5281/zenodo.23836330](https://doi.org/10.5281/zenodo.23836330).
 The DOI is registered when the corresponding Zenodo record is published.
+
+Security update: use the supported installation environment and read
+[`SECURITY.md`](SECURITY.md) before loading model files. Historical runtime
+records are retained for provenance, not recommended for new installations.
 
 ## Overview
 This repository contains the datasets and code for implementing the **Mathematical Artificial Data (MAD)** paradigm, designed for solving partial differential equations (PDEs) such as Poisson, Helmholtz, and Laplace equations. The MAD framework provides a **modular, scalable, and efficient approach** to operator learning.
@@ -120,7 +124,7 @@ These models can be directly loaded and tested using the `model_testing` scripts
 ## Requirements
 
 The following Python libraries are required:
-- `torch>=2.4.1`
+- Python 3.11 or newer and `torch>=2.15.0,<2.16`
 - `numpy>=1.26.3`
 - `matplotlib>=3.9.2`
 - `scipy>=1.14.1`
@@ -132,7 +136,9 @@ pip install -r requirements.txt
 ```
 
 ### Notes
-- The specified versions are based on the development environment. Lower versions might work, but are not guaranteed. If you encounter issues with compatibility, consider updating to the listed versions.
+- These are current public installation requirements. The recorded experiment
+  environment is documented separately in the R4 guide; it is not replaced
+  retrospectively. Do not use unknown checkpoint files with legacy scripts.
 - Standard Python libraries like `time`, `os`, `random`, and `math` are used but do not require additional installation.
 
 ---

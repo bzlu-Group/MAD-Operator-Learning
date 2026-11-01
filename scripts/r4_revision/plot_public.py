@@ -8,6 +8,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+from checkpoint_io import load_checkpoint
 
 from evaluate_pinn_control import prediction
 from train_pinn_balanced import PoissonONet, make_coordinates
@@ -24,8 +25,8 @@ def analytical(points, case, k):
     return u, lap + k * u
 
 
-def load_model(path):
-    state = torch.load(path, map_location="cpu", weights_only=True)
+def load_model(path, *, trust_checkpoint=False):
+    state = load_checkpoint(path, trusted=trust_checkpoint)
     model = PoissonONet(200, 2601, 2, 90, 110)
     model.load_state_dict(state.get("model_state_dict", state))
     return model.eval()
@@ -43,7 +44,7 @@ def example(args):
     truth, _ = analytical(points, args.case, args.k)
     predicted, errors = {}, {}
     for kind, path in (("MAD0", args.mad0), ("PINN", args.pinn)):
-        model = load_model(path)
+        model = load_model(path, trust_checkpoint=getattr(args, "trust_checkpoint", False))
         parts = []
         for start in range(0, len(points), 1024):
             coords = torch.tensor(points[start:start + 1024], dtype=torch.float32)
@@ -95,6 +96,8 @@ if __name__ == "__main__":
     parser.add_argument("--k", type=int, choices=(0, 1, 10, 100), default=1)
     parser.add_argument("--case", choices=("quadratic", "exponential"), default="quadratic")
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--trust-checkpoint", action="store_true",
+                        help="Allow unrestricted pickle only for independently trusted files")
     args = parser.parse_args()
     if args.output.exists() or args.output.with_suffix(".npz").exists():
         raise FileExistsError("Use a new output path")

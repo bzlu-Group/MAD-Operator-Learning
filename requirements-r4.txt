@@ -1,7 +1,7 @@
-# R4 square-domain runtime. Use a fresh environment rather than combining this
-# with the historical requirements.txt (which targets a different environment).
+# Supported public R4 runtime (Python >=3.11); see SECURITY.md.
+# The recorded paper experiments used an older runtime, documented separately.
 numpy==1.26.3
 scipy==1.13.1
-torch==2.5.1
+torch==2.15.0
 matplotlib==3.9.4
 threadpoolctl

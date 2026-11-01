@@ -6,5 +6,7 @@ reproducibility/r4/*.json -text
 reproducibility/r4/*.md -text
 README.md -text
 requirements-r4.txt -text
+requirements.txt -text
+SECURITY.md -text
 CITATION.cff -text
 .zenodo.json -text

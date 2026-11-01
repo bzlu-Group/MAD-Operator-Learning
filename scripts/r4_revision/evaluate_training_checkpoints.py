@@ -6,6 +6,7 @@ from pathlib import Path
 import sys
 
 import numpy as np
+from checkpoint_io import load_checkpoint
 
 
 def digest(path):
@@ -45,7 +46,7 @@ def main(args):
     data = np.load(args.data).astype(np.float32)
     if data.shape != (2000, 5402) or not np.isfinite(data).all():
         raise ValueError("Expected 2000 finite original-protocol 51x51 training tuples")
-    checkpoint = torch.load(args.final, map_location="cpu", weights_only=False)
+    checkpoint = load_checkpoint(args.final, trusted=getattr(args, "trust_checkpoint", False))
     if checkpoint["epoch"] != args.epochs or len(checkpoint["loss_records"]) != args.epochs:
         raise ValueError("Checkpoint does not match the prespecified diagnostic budget")
     axis = np.linspace(0, 1, 51)
@@ -62,7 +63,7 @@ def main(args):
     }
     with torch.inference_mode():
         for name, path in (("retained", args.retained), ("final", args.final)):
-            saved = torch.load(path, map_location="cpu", weights_only=False)
+            saved = load_checkpoint(path, trusted=getattr(args, "trust_checkpoint", False))
             state = saved.get("model_state_dict", saved)
             state = {key.removeprefix("module."): value for key, value in state.items()}
             model = PoissonONet(200, 2601, 2, 90, 110)
@@ -87,4 +88,6 @@ if __name__ == "__main__":
     parser.add_argument("--final", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--epochs", type=int, choices=(50000, 100000, 200000), default=50000)
+    parser.add_argument("--trust-checkpoint", action="store_true",
+                        help="Allow unrestricted pickle only for independently trusted files")
     main(parser.parse_args())

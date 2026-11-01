@@ -11,6 +11,7 @@ import numpy as np
 import torch
 
 import train_pinn_balanced as worker
+from checkpoint_io import require_supported_runtime, require_trusted_resume
 
 
 def input_scales(inputs):
@@ -56,11 +57,16 @@ def main(argv=None):
     parser.add_argument("--threads", type=int, default=2)
     parser.add_argument("--interop-threads", type=int, default=2)
     parser.add_argument("--device", choices=("cpu", "cuda"))
+    parser.add_argument("--trust-checkpoint", action="store_true",
+                        help="Permit pickle loading only for your own trusted resume checkpoint")
     options, rest = parser.parse_known_args(argv)
     if "--help" in rest or "-h" in rest:
         parser.print_help()
         worker.parse_args(["--help"])
     args = worker.parse_args(rest)
+    require_supported_runtime()
+    if args.resume:
+        require_trusted_resume(options.trust_checkpoint)
     if min(options.threads, options.interop_threads) < 1:
         raise ValueError("Thread counts must be positive")
     if args.objective != "pinn":

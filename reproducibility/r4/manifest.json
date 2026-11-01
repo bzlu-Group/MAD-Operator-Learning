@@ -1,6 +1,6 @@
 {
   "schema": "MAD-R4-public-code-manifest-v1",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "files": {
     "scripts/r4_revision/generate_balanced.py": {
       "sha256": "062aa8f9770e4e0c41a1f285a6b8b2823296eb5a2f9f99d75c1a0d2ae0283bdc",
@@ -19,16 +19,16 @@
       "bytes": 6737
     },
     "scripts/r4_revision/evaluate_components.py": {
-      "sha256": "4255ff317adc488a9e34bb176a5f740cb72e9dca12fd3fe50f0b692b2da7b1e1",
-      "bytes": 3967
+      "sha256": "f7e6c64654a23873f99e5901c92e1275912fd5bc71d3e00ad3c2fb3e04e35e36",
+      "bytes": 4186
     },
     "scripts/r4_revision/evaluate_pinn_control.py": {
-      "sha256": "e04e24fee28c586b05edc7749d4db4b6ff706d71c30878fba8e8ae7d715384bc",
-      "bytes": 7815
+      "sha256": "6b97407bc8e9719766276526ec760af3d3ee23d1d344e87c8baa8ed6f6962ae4",
+      "bytes": 8049
     },
     "scripts/r4_revision/evaluate_training_checkpoints.py": {
-      "sha256": "46b152e30b83632aa4e2c3748ba912ebe6d8a228bbc24eb7a839a1a82d37e1dc",
-      "bytes": 4164
+      "sha256": "0ec2db9757eafb2fcd13337979d8655cfb0cca4846cd95c957a943c7362dba91",
+      "bytes": 4398
     },
     "scripts/r4_revision/train_pinn_balanced.py": {
       "sha256": "ea2251d4732ed5b1d667e72993f1d8c5c3c498f3f1907796dee1652b48b7ac5e",
@@ -51,28 +51,28 @@
       "bytes": 2190
     },
     "scripts/r4_revision/train_public.py": {
-      "sha256": "2d2453f9339f00e0ab7d044f1599b5798232bb8f8b2c3e3d786c35ffe8a956ce",
-      "bytes": 3545
+      "sha256": "8f77dad61008ec6680a0b6d7ddfa1150f24201706e89a01fadb3a0678a6bb28a",
+      "bytes": 3895
     },
     "scripts/r4_revision/test_public_reproduction.py": {
       "sha256": "0b1af31d804e9974c0862fed3b448ddd40d5e1d757a30f061950dc8b2d96906c",
       "bytes": 3393
     },
     "scripts/r4_revision/plot_public.py": {
-      "sha256": "665532e2f1c70c23f65962baddad074a28c1380438e4d53cf3a792eab95952a3",
-      "bytes": 4687
+      "sha256": "abdbea59548d14e84dbb17ea8e610fd96336ea75e9c320f66f8dc490541818a9",
+      "bytes": 4969
     },
     "scripts/r4_revision/publication_figure_style.py": {
       "sha256": "ebe72f726d4d8cb89967da1a927a288a963e823e03170d04fd9b4e902426476a",
       "bytes": 978
     },
     "requirements-r4.txt": {
-      "sha256": "f53ebb32298b3c080598609ebd4f373cb8cdbeb4fa3ab59d480ca0ec30f8ec11",
-      "bytes": 232
+      "sha256": "e1b430f3145a3d7457bf3ad23cf2f059fffe99fb69862186e5fd45d6efa9dc43",
+      "bytes": 217
     },
     "reproducibility/r4/README.md": {
-      "sha256": "aa77f75d5ff754f899c21ec3cbaa99c422405215bc7c61842cd07c9eab4d5cc7",
-      "bytes": 9252
+      "sha256": "b6c333caee39f1674c5a507ada7fba60bb2ddde8f1d2f2fd43a43022ff89ffef",
+      "bytes": 9783
     },
     "reproducibility/r4/results.json": {
       "sha256": "51a524bbe1d3275f9d8184772611a1fb66803519020f2f90b3bd4582ef796fe8",
@@ -83,20 +83,36 @@
       "bytes": 6664
     },
     ".zenodo.json": {
-      "sha256": "2d02fce08c454325f28d651cf0e1bcd63c82c345152dc9eaa61f4d5068c6bdac",
+      "sha256": "3da661d91245cef1f899c25f7d2276e145546d62505a1b3f5117817d7552719d",
       "bytes": 999
     },
     "CITATION.cff": {
-      "sha256": "fd399ea7b4af1ecdc24f4a25cd15cdc1bf3a81540989daba29f650980cd37cec",
+      "sha256": "1045b299f7018c1969f64f505d11bf486bebf72261f938c82acb6ec75df31758",
       "bytes": 485
     },
     "README.md": {
-      "sha256": "81fce4975787ebb2581d765a6518b2b3b8af22a1b2edfc203c1422080882aeb8",
-      "bytes": 6939
+      "sha256": "f54bc39235c4977db6d5c36e4a2c37c3f35b06610477396962bbddca8033cc5d",
+      "bytes": 7218
     },
     ".gitattributes": {
-      "sha256": "58c78895baf6c35ae2a0ffbbb4d0b066248c753a35d539a6339e26061891812c",
-      "bytes": 343
+      "sha256": "bcc1b6b66ab9e36c8ef2834b6c8f25a12c4946f8942604cf4f7fabaaeafa5f44",
+      "bytes": 384
+    },
+    "SECURITY.md": {
+      "sha256": "1ea53deb0ee333054e7f7b51a9344662269c6772eb82fa70c333a06d2d76ec92",
+      "bytes": 2744
+    },
+    "scripts/r4_revision/checkpoint_io.py": {
+      "sha256": "fec8d5dc378f664dd7814555324308c8eac6aa0ed59b444fd601c0b5214a88cb",
+      "bytes": 1252
+    },
+    "scripts/r4_revision/test_checkpoint_io.py": {
+      "sha256": "568c4bd46fa63a71a3a0415dad78d5fed43ea69795a479ad8f960d831a72a596",
+      "bytes": 2472
+    },
+    "requirements.txt": {
+      "sha256": "2990ee57069fae6603f102ffa292700b1efa790fa89bd790754da8b86e61e386",
+      "bytes": 91
     }
   },
   "excluded": "Private cluster launchers, account paths, unpublished correspondence, large new checkpoints/datasets and exploratory jobs"

@@ -6,6 +6,7 @@ import sys
 
 import numpy as np
 import torch
+from checkpoint_io import load_checkpoint
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "r3_revision"))
 from train_original_protocol import PoissonONet, TextDataset
@@ -27,7 +28,7 @@ def metric(prediction, truth, scales=None):
 def main(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = PoissonONet(200, 2601, 2, 90, 110).to(device)
-    saved = torch.load(args.model, map_location="cpu", weights_only=False)
+    saved = load_checkpoint(args.model, trusted=getattr(args, "trust_checkpoint", False))
     if "model_state_dict" in saved:
         saved = saved["model_state_dict"]
     saved = {key.removeprefix("module."): value for key, value in saved.items()}
@@ -73,4 +74,6 @@ if __name__ == "__main__":
     parser.add_argument("--dataset", type=Path, required=True)
     parser.add_argument("--test1", type=Path)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--trust-checkpoint", action="store_true",
+                        help="Allow unrestricted pickle only for independently trusted files")
     main(parser.parse_args())

@@ -11,6 +11,7 @@ import sys
 
 import numpy as np
 import torch
+from checkpoint_io import load_checkpoint
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'r3_revision'))
 from train_original_protocol import PoissonONet, TextDataset
@@ -43,7 +44,7 @@ def main(args):
     torch.backends.cudnn.allow_tf32 = False
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = PoissonONet(200, 2601, 2, 90, 110).to(device)
-    state = torch.load(args.model, map_location='cpu', weights_only=False)
+    state = load_checkpoint(args.model, trusted=getattr(args, 'trust_checkpoint', False))
     model.load_state_dict(state.get('model_state_dict', state))
     model.eval()
     axis = np.linspace(0, 1, 51)
@@ -93,7 +94,7 @@ def main(args):
     if args.training_data:
         from train_pinn_balanced import make_coordinates, pinn_predictions, read_timing_receipt
         train = np.load(args.training_data, mmap_mode='r')
-        checkpoint = torch.load(args.checkpoint, map_location='cpu', weights_only=False)
+        checkpoint = load_checkpoint(args.checkpoint, trusted=getattr(args, 'trust_checkpoint', False))
         timing = read_timing_receipt(args.checkpoint, checkpoint)
         if train.shape != (2000, 5402) or checkpoint['epoch'] != args.epochs:
             raise ValueError('Training diagnostic does not match the fixed data/budget')
@@ -139,4 +140,6 @@ if __name__ == '__main__':
     parser.add_argument('--checkpoint', type=Path)
     parser.add_argument('--epochs', type=int)
     parser.add_argument('--k', type=float)
+    parser.add_argument('--trust-checkpoint', action='store_true',
+                        help='Allow unrestricted pickle only for independently trusted files')
     main(parser.parse_args())

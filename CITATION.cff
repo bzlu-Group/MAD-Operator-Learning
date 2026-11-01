@@ -2,9 +2,9 @@ cff-version: 1.2.0
 message: "Please cite this software version and the associated MAD article."
 type: software
 title: "Mathematical artificial data for operator learning: reproducibility code"
-version: 1.0.0
+version: 1.0.1
 doi: 10.5281/zenodo.23836330
-date-released: 2026-10-31
+date-released: 2026-11-01
 authors:
   - family-names: Wu
     given-names: Heng

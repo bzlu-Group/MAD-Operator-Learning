@@ -26,17 +26,21 @@ are not required and are not included.
 
 ## Environment and quick checks
 
-Run commands from the repository root in a fresh Python 3.9 environment:
+Run commands from the repository root in a fresh Python 3.11+ environment:
 
 ```sh
 python -m pip install -r requirements-r4.txt
 python scripts/r4_revision/test_balanced.py
 python scripts/r4_revision/test_public_reproduction.py
+python scripts/r4_revision/test_checkpoint_io.py
 ```
 
 The recorded A800 training used Python 3.9.19, NumPy 1.26.3 and PyTorch
-2.5.1+cu121, float32, without AMP or TF32. For that CUDA build, install PyTorch
-from its official CUDA 12.1 package index. The CPU checks do not require a GPU.
+2.5.1+cu121, float32, without AMP or TF32. These are historical experiment
+records, not a recommendation to install an affected version. The supported
+public environment now uses PyTorch 2.15.0 for checkpoint security; see
+[`SECURITY.md`](../../SECURITY.md). It does not promise bitwise-identical
+training on the newer runtime. The CPU checks do not require a GPU.
 Optional R3 geometry workflows use additional dependencies listed in
 `requirements-r3.txt`, installed separately as appropriate.
 
@@ -103,8 +107,12 @@ Scales use all training g/f inputs only, not test data or solution labels.
 The retained checkpoint is the minimum observed **pre-update training
 minibatch objective**, not the smallest test error or final model. The worker
 also saves final state, Adam/RNG/loader state, histories, milestones and timing
-receipts. Use `--resume` with the same command and output to continue an
-interrupted portable run. Historical author-job checkpoints have different
+receipts. Use `--resume --trust-checkpoint` with the same command and output
+to continue an interrupted portable run, only for a checkpoint you created
+or whose source you independently trust. Full resume uses Python pickle;
+never use that flag for an unknown downloaded file. Evaluation and plotting
+use restricted loading by default and have no automatic pickle fallback.
+Historical author-job checkpoints have different
 launcher metadata and are not promised compatible with this portable wrapper.
 
 The original raw-loss baseline in Table S.17 is reproduced with
