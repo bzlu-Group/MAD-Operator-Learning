@@ -2,7 +2,7 @@
 
 This is the reproduction entry point for Tables 1 and 6 and Section S5 of
 *Mathematical artificial data for operator learning*. The earlier
-[`r3_revision` guide](../../scripts/r3_revision/README.md) preserves historical
+[geometry and source-free experiment guide](../../scripts/r3_revision/README.md) preserves historical
 experiments; its weak-source solver samples and source-term Test Set 2 must not
 be substituted for the final experiments documented here.
 
@@ -17,7 +17,7 @@ be substituted for the final experiments documented here.
 - The existing PB, flower-domain, molecular PQR-to-mesh and Laplace workflows
   in `scripts/r3_revision/`; their experiments are not replaced here.
 
-Large new datasets and R4 trained checkpoints are not bundled. Commands below
+Large generated datasets and trained checkpoints are not bundled. Commands below
 generate the data and train new models; full training is computationally
 substantial. Result JSONs record the published runs, not a substitute for
 running the code. Floating-point training trajectories and time depend on the
@@ -41,7 +41,7 @@ records, not a recommendation to install an affected version. The supported
 public environment now uses PyTorch 2.15.0 for checkpoint security; see
 [`SECURITY.md`](../../SECURITY.md). It does not promise bitwise-identical
 training on the newer runtime. The CPU checks do not require a GPU.
-Optional R3 geometry workflows use additional dependencies listed in
+Optional geometry workflows use additional dependencies listed in
 `requirements-r3.txt`, installed separately as appropriate.
 
 ## 1. Generate training data and Test Set 2
@@ -162,7 +162,7 @@ hardware timing comparison is made for Table 6.
 [`results.json`](results.json) records Tables 1, 6, S.16 and S.17 and related
 source/budget diagnostics, extracted from archived results without rounding.
 The manifest records SHA-256 hashes of released code and result files.
-R4 prediction plots and loss curves must use the RMS PINN models/histories
+The final source-term prediction plots and loss curves use the RMS PINN models/histories
 for the primary comparison, not the old `models/` checkpoints or raw losses.
 Loss curves are diagnostic objectives with different units, not accuracy.
 
@@ -176,6 +176,10 @@ python scripts/r4_revision/plot_public.py history --mad0 results/r4/mad0_k1/mode
 Use `--case exponential` for the second fixed example. Plotting reads the
 retained model and complete last-minibatch history; it does not select models.
 
-The historical R3 guide and summaries are retained for provenance; where the
-source-term results differ, this R4 guide and the final manuscript take
+The earlier source-term guide and summaries are retained for provenance; where the
+source-term results differ, this guide and the final manuscript take
 precedence. Original source-free, geometry and PB code/data are unchanged.
+
+The `r4` path identifies the implementation stage, not a requirement to use
+an earlier manuscript. Later code-availability and clean-format submissions
+did not change the scientific configuration or numerical results here.

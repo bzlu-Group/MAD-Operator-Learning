@@ -1,4 +1,4 @@
-# R3 experiments
+# Geometry and source-free experiment guide
 
 Additional experiments for *Mathematical artificial data for operator
 learning*. The original scripts and data are unchanged. Run the commands
@@ -6,18 +6,26 @@ below from the repository root and use a new output directory for new runs.
 
 ## Experiment index and availability
 
-Table numbers refer to the current R3 manuscript and Supplementary Materials.
-The 50,000-epoch comparisons, rather than the diagnostic 5,000- or
-200,000-epoch continuations, supply the reported training-data comparisons.
+The final paper's geometry, Laplace and nonlinear PB workflows are indexed
+below. The directory name records their implementation stage; it does not
+mean that these experiments require an earlier manuscript.
+
+For the final source-term results in Tables 1 and 6, start with the
+[source-term experiment guide](../../reproducibility/r4/README.md).
+The grid-filtered Helmholtz source distribution and numerical comparison
+in Section 1 below are retained as a historical protocol, not as the final
+Helmholtz Table 6 results. Do not substitute those source samples for the
+response-balanced inputs in the final guide. The source-free Laplace,
+geometry and PB experiments retain their stated protocols.
 
 | Paper location | Experiment | Entry points in this directory |
 | --- | --- | --- |
 | Main Results, DST timing | Helmholtz, k=100, N=200 | `generate_helmholtz_datasets.py`, `benchmark_dst_accuracy.py` |
-| Main Table 6; Table S.5 | MAD0 versus solver, three seeds | `train_original_protocol_vectorized.py`, `evaluate_original_protocol.py` |
+| Historical source-term comparison only | MAD0 versus grid-filtered solver data, three seeds | Section 1 below; use the [final guide](../../reproducibility/r4/README.md) for Table 6 |
 | Main Table 6; Table S.6 | MAD1 versus solver, three seeds | `train_laplace_data_source_comparison.py`, `evaluate_laplace_data_source_comparison.py` |
 | Main Fig. 6; Table S.7 | Fixed flower-shaped three-hole domain | `flower_holes_laplace_experiment.py`, `train_flower_holes_deeponet.py`, `evaluate_flower_holes_deeponet.py` |
 | S4; Table S.4; Fig. S.26 | 100 source-free PB problems, FNO and LNF-NO | `evaluate_source_free_pb.py`, `compare_lnfno_source_free_pb.py`, `report_lnfno_source_free_pb.py` |
-| S5.4; Table S.8; Fig. S.27 | Fixed 7_GLY domain, width-220 paired models | `train_molecular_paired.py`, `plot_7gly_boundary.py` |
+| Main Fig. 7; S5.4; Table S.8 | Fixed 7_GLY domain, width-220 paired models | `train_molecular_paired.py`, `plot_7gly_boundary.py` |
 | S5.4; Table S.9 | Frozen checkpoints, 200 fresh functions | `confirm_molecular_frozen.py` (requires the original checkpoints) |
 | Additional sampling control | Same-input numerical relabeling | `relabel_mad0_solver.py` |
 
@@ -39,11 +47,14 @@ gmsh, meshio and scikit-fem; square-grid training/evaluation does not require
 them. The training environments and mixed-hardware continuation history are
 specified in the experimental protocols, not inferred from a current install.
 
-## Completed 50,000-epoch comparisons
+## Recorded 50,000-epoch comparisons
 
-The R3 manuscript reports the completed 50,000-epoch paired comparisons:
+The historical paired comparisons completed 50,000 epochs:
 MAD0 versus solver data for Helmholtz, and MAD1 versus solver data for
 Laplace, each with seeds 20260904, 20260905, and 20260906 (12 runs).
+Only the source-free Laplace comparison remains the corresponding final
+Table 6 experiment. The final Helmholtz comparison is documented separately
+in the source-term experiment guide.
 Tables below summarize all three seeds using the original
 minimum-training-minibatch-MSE checkpoints, not test-based selection.
 
@@ -58,7 +69,11 @@ runs. Exact floating-point trajectories can depend on hardware and software.
 The public summary is `reproducibility/r3/results/data_source_comparison.json`;
 it retains all three seeds for each data source.
 
-## 1. MAD0 versus solver-generated training data
+## 1. Historical MAD0 versus grid-filtered solver data
+
+This section preserves the earlier source-sampling protocol and results.
+For the final paper's Helmholtz comparison, use the response-balanced
+construction and matched commands in the [final guide](../../reproducibility/r4/README.md).
 
 Generate 2,000 samples for each data source for
 `Delta u + u = f`. The solver inputs reproduce the fine-grid RBF-GP boundary
@@ -99,7 +114,7 @@ python scripts/r3_revision/evaluate_original_protocol.py `
   --model MODEL_PATH --output EVALUATION_JSON_PATH
 ```
 
-The revision reports means and sample standard deviations over the paired
+This historical comparison reports means and sample standard deviations over the paired
 seeds 20260904, 20260905, and 20260906. Within each seed pair, only the
 training-data source changes. The aggregate relative L2 errors were:
 
@@ -331,10 +346,13 @@ exact exterior-source fields, not independently sampled FEM solutions.
 
 ## 8. Required inputs and release boundary
 
-The following additional inputs are not included in this release. Exact
-replay requires the original inputs; a documented replacement constitutes a
-new experiment. Contact the authors for availability. Fresh retraining need
-not reproduce an archived floating-point trajectory bit for bit.
+The additional inputs below are not included in this release. Exact
+checkpoint replay requires the original inputs and is distinct from a fresh
+reproduction using the public generation/training workflows. The
+[PB](PB_FROM_SCRATCH.md) and [molecular](MOLECULAR_FROM_SCRATCH.md) guides
+provide those workflows without requiring an access request for archived
+weights. Fresh retraining need not reproduce an archived floating-point
+trajectory bit for bit.
 
 | Input | Role / schema | Availability |
 | --- | --- | --- |
